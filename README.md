@@ -1,6 +1,6 @@
 <h1 align="center">LAMP Stack Server</h1>
 
-**Overview:** The goal of this project is to configure and run an Apache HTTP server in a Linux OS Server, set up Git for version control, run containerized Node.js applications with Docker, use Kubernetes as container orchestration, and create CI/CD pipelines and Python automation.
+**Overview:** The goal of this project is to configure and run an Apache HTTP server in a Linux OS Server, set up Git for version control, create a Relational Database, run containerized Node.js applications with Docker, use Kubernetes as container orchestration, and create CI/CD pipelines and Python automation.
 
 I will be developing from scratch a customized LAMP stack first locally and then eventually connecting the entire application to the internet and will be documenting all my learning paths with the steps, errors, and cool solutions that I have found.
 
