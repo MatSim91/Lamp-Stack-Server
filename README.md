@@ -10,6 +10,7 @@ I will be developing from scratch a customized LAMP stack first locally and then
 2. [Linux Ubuntu Server 22.04 LTS Installation](#linux-ubuntu-server-2204-lts-installation)
     - [Installation Steps Performed](#installation-steps-performed)
     - [Boot Problem](#boot-problem)
+    - [Users and Groups Setup](#users-and-groups-setup)
 3. [Apache Installation](#apache-installation)
 4. [Additional Tools and Packages](#additional-tools-and-packages)
     - [Hardware Lister](#hardware-lister)
@@ -39,8 +40,6 @@ My recommendation: With the chip shortage and the high demand for Raspberry Pi's
 
 # Linux Ubuntu Server 22.04 LTS Installation
 
-**Linux Ubuntu Version: Ubuntu Server 22.04 LTS**
-
 ## Installation Steps Performed:
 
 1. Downloaded ISO file for Ubuntu Server 22.04 LTS from https://ubuntu.com/download/server while choosing the "Option 2 - Manual Server Installation".
@@ -66,6 +65,8 @@ No panic, finally a bit of troubleshooting! Well, the troubleshooting definitely
 5. Ran some HDD tests and Disk Sanitize to make sure the HDD was fine ✓
 6. Manually selected the HDD to be booted from and updated the System boot priority ✓
 
+Temporary workaround:
+
 After hours of troubleshooting and with no resolution after performing the steps above I decided it was time to let this go for now and tried a different approach: I've found a 16GB USB Drive and on my first attempt to install the Linux Server on the USB drive it worked!
 
 So this confirmed the issue is with the HDD, I still haven't found the exact cause of the issue, but I will! I have some next steps that I will be working on to try to figure this out at a later stage:
@@ -76,7 +77,32 @@ Some next steps I have in mind to find the Boot issue with the HDD:
 2. Check if there is an issue with the MBR.
 3. Check for any SATA connections issues with the HDD and the machine.
 
+## Setting up OpenSSH connection:
+The OpenSSH came pre-installed (It shows an option to install OpenSSH while Linux Server is being installed.
+
+Full documentation on the OpenSSH tool: https://www.openssh.com/
+
+Setup steps:
+
+After the server was booted up and I had logged in with my user and password:
+1. To find out my server private IP address: `ip a`.
+2. Ran `sudo lsof -P | grep LISTEN` to check for all the open ports and if the port 22 was opened.
+3. Check if the OpenSSH is active and running with: `sudo service ssh status`
+4. To connect to the local server: `ssh<USER>@<IP_ADDRESS>`
+
+OpenSSH also allows connecting via SFTP to make it easier for file uploads to the server. 
+
+## Users and Groups setup
+
+Currently I am having one small issue while trying to upload a test image to the images/ folder. I am getting a permissions denied message.
+
+The images/ folder has the following permissions: **drwxrwxr-x set as 0775** and I get the permissions denied when I try to upload an image via SFTP to that folder. But when I change the file permissions with `chmod 777 images/` to **drwxrwxrwx 0777** (not ideal but just for testing purposes) I am able to upload the image, so while connected via SFTP I am connected as a Public user. I will need to create a specific group for my username to allow these SFTP modifications.
+
+Also while trying to create/delete any file/directory I am getting a permission denied message.
+
 # Apache Installation
+
+
 
 # Additional Tools and Packages
 
