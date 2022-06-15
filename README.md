@@ -8,7 +8,7 @@ I will be developing from scratch a customized LAMP stack first locally and then
 
 1. [Finding a Machine](#finding-a-machine)
 2. [Linux Ubuntu Server 22.04 LTS Installation](#linux-ubuntu-server-2204-lts-installation)
-    - [Installation Steps Performed](#installation-steps-performed)
+    - [Installation Steps](#installation-steps)
     - [Boot Problem](#boot-problem)
     - [Users and Groups Setup](#users-and-groups-setup)
 3. [Apache Installation](#apache-installation)
@@ -40,7 +40,7 @@ My recommendation: With the chip shortage and the high demand for Raspberry Pi's
 
 # Linux Ubuntu Server 22.04 LTS Installation
 
-## Installation Steps Performed:
+## Installation Steps:
 
 1. Downloaded ISO file for Ubuntu Server 22.04 LTS from https://ubuntu.com/download/server while choosing the "Option 2 - Manual Server Installation".
 2. Created a Bootable USB drive with Rufus (https://rufus.ie/en/) and with the Ubuntu Server ISO file.
