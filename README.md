@@ -96,9 +96,54 @@ OpenSSH also allows connecting via SFTP to make it easier for file uploads to th
 
 Currently I am having one small issue while trying to upload a test image to the images/ folder. I am getting a permissions denied message.
 
-The images/ folder has the following permissions: **drwxrwxr-x set as 0775** and I get the permissions denied when I try to upload an image via SFTP to that folder. But when I change the file permissions with `chmod 777 images/` to **drwxrwxrwx 0777** (not ideal but just for testing purposes) I am able to upload the image, so while connected via SFTP I am connected as a Public user. I will need to create a specific group for my username to allow these SFTP modifications.
+The images/ folder has the following permissions: **drwxrwxr-x set as 0755** and I get the permissions denied when I try to upload an image via SFTP to that folder. But when I change the file permissions with `chmod 777 images/` to **drwxrwxrwx 0777** (not ideal but just for testing purposes) I am able to upload the image, so while connected via SFTP I am connected as a Public user. I will need to create a specific group for my username to allow these SFTP modifications.
+
+To change the Files and Directories permissions to 777 (rwxrwxrwx) for testing I have used the chmod command:
+
+`chmod 777 images/`
+
+**Numeric Notation:**
+
+```
+r - read  - 4
+w - write  - 2
+x - execute  - 1
+```
 
 Also while trying to create/delete any file/directory I am getting a permission denied message.
+
+### Fix:
+
+To fix the file permissions error I updated the file User and Group owner to my own user and then I was able to create and delete anything without having to use sudo access. The Directory and the File permissions remained the same:
+
+**Directory Permissions:** 755
+**File Permissions:** 644
+
+**/var/www/html contents before the fix:**
+
+```
+-rw-r--r-- 1 root root 10682 Jun 10 12:09 apache_default_index.html
+drwxr-xr-x 4 root root  4096 Jun 10 12:51 assets/
+-rw-r--r-- 1 root root  8648 Jun 10 12:23 index.html
+-rw-r--r-- 1 root root 10545 Jun 10 12:55 why-donate.html
+```
+
+**/var/www/html contents after the fix:**
+
+```
+-rw-r--r-- 1 my_user my_user 10682 Jun 10 12:09 apache_default_index.html
+drwxr-xr-x 4 my_user my_user  4096 Jun 10 12:51 assets/
+-rw-r--r-- 1 my_user my_user  8648 Jun 10 12:23 index.html
+-rw-r--r-- 1 my_user my_user 10545 Jun 10 12:55 why-donate.html
+```
+
+To change the Owner of the file: `chown my_user file_name`
+
+To change the Group of the file: `chgrp my_user file_name`
+
+In this case I ran these commands with a `*` instead of the `file_name` to change all the contents in the current directory I was in.
+
+PS: While adding the username in the documentation I have covered my real username and used my_user just to be extra safe.
 
 # Apache Installation
 
