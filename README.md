@@ -7,11 +7,14 @@ I will be developing from scratch a customized LAMP stack first locally and then
 # Table Of Contents
 
 1. [Finding a Machine](#finding-a-machine)
-2. [Linux Ubuntu Server 22.04 LTS Installation](#linux-ubuntu-server-2204-lts-installation)
+2. [Linux Ubuntu Server 22.04 LTS](#linux-ubuntu-server-2204-lts)
     - [Installation Steps](#installation-steps)
     - [Boot Problem](#boot-problem)
     - [Users and Groups Setup](#users-and-groups-setup)
-3. [Apache Installation](#apache-installation)
+3. [Apache](#apache)
+    - [Apache Installation Steps](#apache-installation-steps)
+    - [Apache Management/Configuration](#apache-managementconfiguration)
+    - [Apache Commands](#apache-commands)
 4. [Additional Tools and Packages](#additional-tools-and-packages)
     - [Hardware Lister](#hardware-lister)
 5. [Technologies Used](#technologies-used)
@@ -38,7 +41,7 @@ Intel(R) Core(TM) i3-3110M CPU @ 2.40GHz
 
 My recommendation: With the chip shortage and the high demand for Raspberry Pi's the prices are crazy. Instead you can use that old abandoned PC gathering dust for free!
 
-# Linux Ubuntu Server 22.04 LTS Installation
+# Linux Ubuntu Server 22.04 LTS
 
 ## Installation Steps:
 
@@ -145,7 +148,9 @@ In this case I ran these commands with a `*` instead of the `file_name` to chang
 
 PS: While adding the username in the documentation I have covered my real username and used my_user just to be extra safe.
 
-# Apache Installation
+# Apache
+
+## Apache Installation Steps
 
 Full apache documentation here: https://apache.org/
 
