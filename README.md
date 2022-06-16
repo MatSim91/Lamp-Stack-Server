@@ -54,7 +54,7 @@ My recommendation: With the chip shortage and the high demand for Raspberry Pi's
 
 After smoothly performing the installation steps the Linux server completed the installation successfully and I rebooted the machine without the USB drive attached, then the machine, booting from the HDD, showed the first error message:
 
-![Error Message - BootDevice Not Found]()
+![Error Message - BootDevice Not Found](images/boot_error.jpg)
 
 No panic, finally a bit of troubleshooting! Well, the troubleshooting definitely went longer than I thought and I run through all the troubleshooting steps below:
 
@@ -161,7 +161,7 @@ apache2   4615        www-data    4u  IPv6  26387      0t0  TCP *:80 (LISTEN)
 apache2   4616        www-data    4u  IPv6  26387      0t0  TCP *:80 (LISTEN)
 ```
 4. Opened a web browser and connected to my local server IP 192.168.1.x to confirm I could see the default Apache2 page:
-    ![Apache web server](img_url)
+    ![Apache web server](images/apache2_index.jpg)
 
 5. That's it, now I have an Apache server running on Linux!
 
@@ -169,7 +169,7 @@ apache2   4616        www-data    4u  IPv6  26387      0t0  TCP *:80 (LISTEN)
 
 After Apache was installed I have added some custom HTML/CSS files that I have made to load a simple website:
 
-![ONE%](image_url3)
+![ONE%](images/one_p.jpg)
 
 **Access Logs:**
 To check for the apache Access logs we can ran `cat /var/log/apache2/access.log` for todays logs and `cat /var/log/apache2/access.log.1` or `zcat /var/log/apache2/access.log.2.gz` to check for past logs.
