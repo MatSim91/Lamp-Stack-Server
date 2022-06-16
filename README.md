@@ -147,7 +147,46 @@ PS: While adding the username in the documentation I have covered my real userna
 
 # Apache Installation
 
+Full apache documentation here: https://apache.org/
 
+1. Updated my repositories with `sudo apt-get update`
+2. Installed apache2 running `sudo apt-get install apache2
+3. Ran `sudo lsof -i -P -n | grep LISTEN` to check if port 80 is open:
+
+```
+sshd       805            root    3u  IPv4  24422      0t0  TCP *:22 (LISTEN)
+sshd       805            root    4u  IPv6  24424      0t0  TCP *:22 (LISTEN)
+apache2    865            root    4u  IPv6  26387      0t0  TCP *:80 (LISTEN)
+apache2   4615        www-data    4u  IPv6  26387      0t0  TCP *:80 (LISTEN)
+apache2   4616        www-data    4u  IPv6  26387      0t0  TCP *:80 (LISTEN)
+```
+4. Opened a web browser and connected to my local server IP 192.168.1.x to confirm I could see the default Apache2 page:
+    ![Apache web server](img_url)
+
+5. That's it, now I have an Apache server running on Linux!
+
+## Apache Management/Configuration
+
+After Apache was installed I have added some custom HTML/CSS files that I have made to load a simple website:
+
+![ONE%](image_url3)
+
+**Access Logs:**
+To check for the apache Access logs we can ran `cat /var/log/apache2/access.log` for todays logs and `cat /var/log/apache2/access.log.1` or `zcat /var/log/apache2/access.log.2.gz` to check for past logs.
+
+**Error Logs:**
+To check for the apache Error logs we can ran `cat /var/log/apache2/error.log` for todays logs and `cat /var/log/apache2/error.log.1` or `zcat /var/log/apache2/error.log.2.gz` to check for past logs.
+
+## Apache Commands
+
+**To stop apache2:**
+`sudo /etc/init.d/apache2 stop`
+
+**To start apache2:**
+`sudo /etc/init.d/apache2 start`
+
+**To Restart apache2:**
+`sudo /etc/init.d/apache2 restart`
 
 # Additional Tools and Packages
 
