@@ -15,15 +15,20 @@ I will be developing from scratch a customized LAMP stack first locally and then
     - [Apache Installation Steps](#apache-installation-steps)
     - [Apache Management/Configuration](#apache-managementconfiguration)
     - [Apache Commands](#apache-commands)
-4. [Additional Tools and Packages](#additional-tools-and-packages)
+4. [Docker](#docker)
+ - [Docker Installation Steps](#docker-installation-steps)
+5. [Configuring CI/CD with Jenkins and Github](#configuring-cicd-with-jenkins-and-github)
+ - [Starting and running Jenkins container](#starting-and-running-jenkins-container)
+ - [Configuring Github](#configuring-github)
+6. [Additional Tools and Packages](#additional-tools-and-packages)
     - [Hardware Lister](#hardware-lister)
-5. [Technologies Used](#technologies-used)
-6.  [Languages Used](#languages-used)
-7.  [Frameworks, Libraries & Programs Used](#frameworks-libraries-and-programs-used)
-8.  [Testing](#testing)
+7. [Technologies Used](#technologies-used)
+8.  [Languages Used](#languages-used)
+9.  [Frameworks, Libraries & Programs Used](#frameworks-libraries-and-programs-used)
+10.  [Testing](#testing)
     - [](#)
-9. [Deploy](#deploy)
-10. [Credits](#credits)
+11. [Deploy](#deploy)
+1. [Credits](#credits)
     - [](#)
 
 
@@ -193,6 +198,46 @@ To check for the apache Error logs we can ran `cat /var/log/apache2/error.log` f
 **To Restart apache2:**
 `sudo /etc/init.d/apache2 restart`
 
+# Docker
+
+Docker container docs: https://docs.docker.com/engine/reference/commandline/container/
+
+At this stage, and after getting more familiarized with Apache I started leaning towards Docker Containers and containerizing my applications going forward, so instead of running Apache and other applications directly on the server I installed docker container to run everything in containers. I also moved my local server to a remote one to make it easier to connect from anywhere while having a Public IP Address.
+
+## Docker Installation Steps
+
+Chose the convenience scripts installation method as this is just a personal project, but this installation method is only recommended for testing and development environments.
+
+1. Ran sudo `sudo apt-get update`
+2. `curl -fsSL https://get.docker.com -o get-docker.sh`
+3. `sudo sh ./get-docker.sh`
+4. Checked current docker version that was installed with `docker -v`:
+```
+Docker version 23.0.2, build 569dd73
+```
+# Configuring CI/CD with Jenkins and Github
+
+## Starting and running Jenkins container
+
+I choose to install Jenkins in order to create a CI/CD Pipeline With Jenkins and GitHub. So everytime I made changes, commit and push any changes to my Github repo this should trigger a Jenkins job and push the changes to the server automatically.
+
+Instead of storing all Jenkins data inside the container I choose to store the data on the host, doing this it should prevent the jenkins data to erase everytime the jenkins container is stopped and a new container is created.
+
+1. Created a directory to store jenkins data with `mkdir jenkins-data`
+2. In order to jenkins to have write permission to directory we also need to update the directory owner to jenkins user - uid 1000 with `chown 1000 jenkins-data`
+3. Started jenkins container while setting the port mapping to match the port from the host with the container and also storing jenkins data on the directory I have created in the step above: `docker run -p 8080:8080 -v /root/jenkins-data:/var/jenkins_home jenkins/jenkins`
+
+After jenkins image finished pulling and the jenkins container started running from that image I was able to access jenkins via port 8080, after a time waiting for jenkins to finish the setup I was able to view jenkins dashboard:
+
+![jenkins_dashboard](images/jenkins_dashboard.jpg)
+
+## Configuring Github
+
+1. Clicked on the Settings of the LAMP Stack Server repo.
+2. Created a webhook and updated the Payload URL to match the remote server IP with the port 8080.
+3. Changed the Content type to "application/json"
+4. Select just the PUSH event, toggled the "Active" option and clicked on "Add webhook"
+
 # Additional Tools and Packages
 
   ## Hardware Lister
@@ -208,3 +253,21 @@ To check for the apache Error logs we can ran `cat /var/log/apache2/error.log` f
   **To check the hardware information:**
 
   `sudo lshw -short`
+
+----
+
+  ## htop
+
+  htop is a colorful interactive process viewer! It shows information just like the `top` command but with more options and it's easier to view all the processes and what might be consuming too much RAM or CPU usage, it also has great additional options like Searching, Filtering and SortBy.
+
+  Site and Documentation: https://htop.dev/
+
+  **To install:**
+
+  `sudo apt install htop`
+
+  **To run:**
+
+  Simply run `htop` to open the process viewer:
+    ![htop](images/htop_process_viewer.jpg)
+  To exit the process viewer you can hit F10 or CTRL+C.
