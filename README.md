@@ -237,6 +237,7 @@ After jenkins image finished pulling and the jenkins container started running f
 2. Created a webhook and updated the Payload URL to match the remote server IP with the port 8080.
 3. Changed the Content type to "application/json"
 4. Select just the PUSH event, toggled the "Active" option and clicked on "Add webhook"
+5. With this configuration all my git pushes are being deployed via Jenkins to the server under `/root/jenkins-data/workspace/LAMP Stack Server/`
 
 # Additional Tools and Packages
 
