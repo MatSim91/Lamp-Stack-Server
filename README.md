@@ -17,18 +17,19 @@ I will be developing from scratch a customized LAMP stack first locally and then
     - [Apache Commands](#apache-commands)
 4. [Docker](#docker)
  - [Docker Installation Steps](#docker-installation-steps)
-5. [Configuring CI/CD with Jenkins and Github](#configuring-cicd-with-jenkins-and-github)
+5. [Stackstorm installation](#stackstorm-installation)
+6. [Configuring CI/CD with Jenkins and Github](#configuring-cicd-with-jenkins-and-github)
  - [Starting and running Jenkins container](#starting-and-running-jenkins-container)
  - [Configuring Github](#configuring-github)
-6. [Additional Tools and Packages](#additional-tools-and-packages)
+7. [Additional Tools and Packages](#additional-tools-and-packages)
     - [Hardware Lister](#hardware-lister)
-7. [Technologies Used](#technologies-used)
-8.  [Languages Used](#languages-used)
-9.  [Frameworks, Libraries & Programs Used](#frameworks-libraries-and-programs-used)
-10.  [Testing](#testing)
+8. [Technologies Used](#technologies-used)
+9.  [Languages Used](#languages-used)
+10.  [Frameworks, Libraries & Programs Used](#frameworks-libraries-and-programs-used)
+11.  [Testing](#testing)
     - [](#)
-11. [Deploy](#deploy)
-1. [Credits](#credits)
+12. [Deploy](#deploy)
+13. [Credits](#credits)
     - [](#)
 
 
@@ -219,6 +220,13 @@ Docker version 23.0.2, build 569dd73
 To update docker: `sudo apt-get install --only-upgrade docker`
 
 Installing docker compose: `apt install docker-compose`
+
+# Stackstorm installation
+
+1. Made sure I had the update version of Docker engine and docker-compose.
+2. Cloned the st2-docker repo with `git clone https://github.com/stackstorm/st2-docker`
+3. cd into the newly cloned dir and ran `docker-compose up -d`
+4. Run `sudo docker ps` to show all the containers up and running.
 
 # Configuring CI/CD with Jenkins and Github
 
