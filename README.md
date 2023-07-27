@@ -215,6 +215,9 @@ Chose the convenience scripts installation method as this is just a personal pro
 ```
 Docker version 23.0.2, build 569dd73
 ```
+
+To update docker: `sudo apt-get install --only-upgrade docker`
+
 # Configuring CI/CD with Jenkins and Github
 
 ## Starting and running Jenkins container
