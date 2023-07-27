@@ -218,6 +218,8 @@ Docker version 23.0.2, build 569dd73
 
 To update docker: `sudo apt-get install --only-upgrade docker`
 
+Installing docker compose: `apt install docker-compose`
+
 # Configuring CI/CD with Jenkins and Github
 
 ## Starting and running Jenkins container
