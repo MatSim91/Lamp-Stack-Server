@@ -10,6 +10,7 @@ I will be developing from scratch a customized LAMP stack first locally and then
 2. [Linux Ubuntu Server 22.04 LTS](#linux-ubuntu-server-2204-lts)
     - [Installation Steps](#installation-steps)
     - [Boot Problem](#boot-problem)
+    - [Setting up OpenSSH connection](#setting-up-openssh-connection)
     - [Users and Groups Setup](#users-and-groups-setup)
 3. [Apache](#apache)
     - [Apache Installation Steps](#apache-installation-steps)
@@ -18,6 +19,7 @@ I will be developing from scratch a customized LAMP stack first locally and then
 4. [Docker](#docker)
  - [Docker Installation Steps](#docker-installation-steps)
 5. [Stackstorm installation](#stackstorm-installation)
+    - [Setting up Stackstorm Web UI](#setting-up-stackstorm-web-ui)
 6. [Configuring CI/CD with Jenkins and Github](#configuring-cicd-with-jenkins-and-github)
  - [Starting and running Jenkins container](#starting-and-running-jenkins-container)
  - [Configuring Github](#configuring-github)
@@ -101,6 +103,17 @@ After the server was booted up and I had logged in with my user and password:
 
 OpenSSH also allows connecting via SFTP to make it easier for file uploads to the server. 
 
+### Setting up SSH Public and Private Key
+To connect to my remote server without having to type a password everytime I have created a ssh key following the steps below:
+
+1. On my local computer I ran `ssh-keygen -t rsa`
+2. Still on my local computer I ran `ssh-copy-id <USER>@<SERVER_IP_ADDRESS>`
+
+### Setting up server name on /etc/hosts
+To avoid having to always use the server IP address to connect I have added a hostname to the `/etc/hosts` file:
+
+<SERVER_IP_ADDRESS> <my_hostname>
+
 ## Users and Groups setup
 
 Currently I am having one small issue while trying to upload a test image to the images/ folder. I am getting a permissions denied message.
@@ -140,19 +153,32 @@ drwxr-xr-x 4 root root  4096 Jun 10 12:51 assets/
 **/var/www/html contents after the fix:**
 
 ```
--rw-r--r-- 1 my_user my_user 10682 Jun 10 12:09 apache_default_index.html
-drwxr-xr-x 4 my_user my_user  4096 Jun 10 12:51 assets/
--rw-r--r-- 1 my_user my_user  8648 Jun 10 12:23 index.html
--rw-r--r-- 1 my_user my_user 10545 Jun 10 12:55 why-donate.html
+-rw-r--r-- 1 mateus mateus 10682 Jun 10 12:09 apache_default_index.html
+drwxr-xr-x 4 mateus mateus  4096 Jun 10 12:51 assets/
+-rw-r--r-- 1 mateus mateus  8648 Jun 10 12:23 index.html
+-rw-r--r-- 1 mateus mateus 10545 Jun 10 12:55 why-donate.html
 ```
 
-To change the Owner of the file: `chown my_user file_name`
+To change the Owner of the file: `chown <USER> file_name`
 
-To change the Group of the file: `chgrp my_user file_name`
+To change the Group of the file: `chgrp <USER> file_name`
 
 In this case I ran these commands with a `*` instead of the `file_name` to change all the contents in the current directory I was in.
 
 PS: While adding the username in the documentation I have covered my real username and used my_user just to be extra safe.
+
+### Creating User
+
+To stop using root everytime I was connected to the server I create a username by running `sudo adduser mateus`
+
+And then to add my user to the sudo group I ran `usermod -aG sudo mateus`
+
+And we can check that was succesfully by running `groups mateus`:
+
+```
+/home# groups mateus
+mateus : mateus sudo
+```
 
 # Apache
 
@@ -161,7 +187,7 @@ PS: While adding the username in the documentation I have covered my real userna
 Full apache documentation here: https://apache.org/
 
 1. Updated my repositories with `sudo apt-get update`
-2. Installed apache2 running `sudo apt-get install apache2
+2. Installed apache2 running `sudo apt-get install apache2`
 3. Ran `sudo lsof -i -P -n | grep LISTEN` to check if port 80 is open:
 
 ```
@@ -228,6 +254,33 @@ Installing docker compose: `apt install docker-compose`
 3. cd into the newly cloned dir and ran `docker-compose up -d`
 4. Run `sudo docker ps` to show all the containers up and running.
 
+## Setting up Stackstorm Web UI
+
+As I am running stackstorm on a remote host inside a docker container I had to update the `docker-compose.yml` file and edit the line with the local ip address `127.0.0.1:80` below to match with the remote host IP address:
+
+```
+    ports:
+      - "${ST2_EXPOSE_HTTP:-127.0.0.1:80}:80"
+      # - "${ST2_EXPOSE_HTTPS:-127.0.0.1:443}:443"
+      # more work would be needed with certificate generate to make https work.
+```
+I also updated the `config.js` file located on `/opt/stackstorm/static/webui/config.js` inside the docker container `stackstorm/st2web:latest`. To do that I had to connect to the st2web container with `docker exec -it <CONTAINER_ID> /bin/sh` and then edit the file to update it:
+
+```
+hosts: [{
+  name: 'Express Deployment',
+  url: 'http://<REMOTE_HOST>/api',
+  auth: 'http://<REMOTE_HOST>/auth'
+},{
+  name: 'Development Environment',
+  url: 'http://<REMOTE_HOST>:9101'
+  auth: 'https://<REMOTE_HOST>:9100'
+}]
+```
+
+After the file was updated I ran `docker-compose up -d` and was able to load ST2 web UI:
+
+
 # Configuring CI/CD with Jenkins and Github
 
 ## Starting and running Jenkins container
@@ -251,6 +304,9 @@ After jenkins image finished pulling and the jenkins container started running f
 3. Changed the Content type to "application/json"
 4. Select just the PUSH event, toggled the "Active" option and clicked on "Add webhook"
 5. With this configuration all my git pushes are being deployed via Jenkins to the server under `/root/jenkins-data/workspace/LAMP Stack Server/`
+
+![jenkins_dashboard2](images/jenkins_dashboard2.jpg)
+![jenkins_dashboard3](images/jenkins_dashboard3.jpg)
 
 # Additional Tools and Packages
 
